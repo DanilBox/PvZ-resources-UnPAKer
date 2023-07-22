@@ -1,0 +1,10 @@
+[package]
+name = "pvz-resources-unpaker"
+version = "1.0.0"
+description = "PvZ resources UnPAKer"
+authors = ["Danil Ovchinnikov <Danil42Worker@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/DanilBox/PvZ-resources-UnPAKer"
+
+edition = "2021"
