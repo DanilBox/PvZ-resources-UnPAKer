@@ -14,21 +14,21 @@ struct PakReader {
 
 impl PakReader {
     pub fn new(v: Vec<u8>) -> PakReader {
-        return PakReader { c: Cursor::new(v) };
+        PakReader { c: Cursor::new(v) }
     }
 
     pub fn read_u8(&mut self) -> u8 {
         let mut buf = [0u8; 1];
         self.c.read_exact(&mut buf).expect("error from read u8");
 
-        return u8::from_be_bytes(buf);
+        u8::from_be_bytes(buf)
     }
 
     pub fn read_vec_u8(&mut self, len: usize) -> Vec<u8> {
         let mut buf = vec![0u8; len];
         self.c.read_exact(&mut buf).expect("error from read vec u8");
 
-        return buf;
+        buf
     }
 
     pub fn read_u32(&mut self) -> u32 {
@@ -36,7 +36,7 @@ impl PakReader {
         self.c.read_exact(&mut buf).expect("error from read u32");
         buf.reverse();
 
-        return u32::from_be_bytes(buf);
+        u32::from_be_bytes(buf)
     }
 
     pub fn read_u64(&mut self) -> u64 {
@@ -44,14 +44,13 @@ impl PakReader {
         self.c.read_exact(&mut buf).expect("error from read u64");
         buf.reverse();
 
-        return u64::from_be_bytes(buf);
+        u64::from_be_bytes(buf)
     }
 
     pub fn read_string(&mut self, len: usize) -> String {
         let buf = self.read_vec_u8(len);
-        let file_name = String::from_utf8(buf).expect("error from read string buffer");
 
-        return file_name;
+        String::from_utf8(buf).expect("error from read string buffer")
     }
 }
 
@@ -102,7 +101,7 @@ fn main() {
         let size = rec.file_size as usize;
         let buf = pac.read_vec_u8(size);
 
-        let file_path = rec.file_path.replace("\\", "/");
+        let file_path = rec.file_path.replace('\\', "/");
         let save_file_path = Path::new(&output_directory).join(file_path);
 
         let save_dir = save_file_path.parent().expect("error getting save folder");
@@ -120,10 +119,10 @@ fn main() {
 }
 
 fn read_buffer_from_file(pak_path: &String) -> Vec<u8> {
-    let mut pak_file = File::open(pak_path).expect("pak file not found");
-
     let mut buffer = Vec::new();
-    pak_file
+
+    File::open(pak_path)
+        .expect("pak file not found")
         .read_to_end(&mut buffer)
         .expect("error read from file");
 
